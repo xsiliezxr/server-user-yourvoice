@@ -32,9 +32,9 @@ export const validateJWT = (req, res, next) => {
         if (jwtConfig.issuer) verifyOptions.issuer = jwtConfig.issuer;
         if (jwtConfig.audience) verifyOptions.audience = jwtConfig.audience;
 
-        
+
         const decoded = jwt.verify(token, jwtConfig.secret, verifyOptions);
-        
+
         // Verificar que el token tenga el nivel de acceso completo, no solo un token de acceso limitado
         if (!decoded.auth_level || decoded.auth_level !== 'fully_authenticated') {
             return res.status(403).json({
@@ -43,7 +43,7 @@ export const validateJWT = (req, res, next) => {
                 error: 'LIMITED_ACCESS_TOKEN',
             });
         }
-        
+
         // Log para debug - remover en producción
         if (!decoded.role) {
             console.warn(
@@ -51,9 +51,9 @@ export const validateJWT = (req, res, next) => {
                 JSON.stringify(decoded, null, 2)
             );
         }
-
         req.user = {
-            id: decoded.sub, // userId del servicio de autenticación
+            authId: decoded.sub,
+            authorUsername: decoded.username,
             jti: decoded.jti, // ID único del token
             iat: decoded.iat, // Emitido en
             role: decoded.role || 'USER_ROLE', // Rol del usuario (default: USER_ROLE)
