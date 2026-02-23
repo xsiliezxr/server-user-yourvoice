@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import { dbConnection } from './db.js';
 import { corsOptions } from './cors-configuration.js';
 import { helmetConfiguration } from './helmet-configuration.js';
+import categor from '../src/categories/category.routes.js';
 
 const BASE_PATH = 'yourVoiceUser/v1';
 
@@ -28,6 +29,8 @@ const routes = (app) => {
             version: '1.0.0'
         });
     });
+
+    app.use(`/${BASE_PATH}/category`, categor);
 
     app.use((req, res) => {
         res.status(404).json({
@@ -51,8 +54,9 @@ export const initServer = async () => {
 
         app.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`);
+            console.log(`Health check: http://localhost:${PORT}/${BASE_PATH}/health`);
         });
-        
+
     } catch (error) {
         console.error('Error starting user server: ', error);
     }
