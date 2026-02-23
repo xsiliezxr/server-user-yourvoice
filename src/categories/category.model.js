@@ -28,7 +28,6 @@ const categorySchema = mongoose.Schema(
 );
 
 categorySchema.index({ isActive: 1 });
-categorySchema.index({ name: 1 });
 categorySchema.index({ isActive: 1, name: 1 });
 
 export default mongoose.model('Category', categorySchema);
