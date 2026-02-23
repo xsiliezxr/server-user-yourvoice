@@ -9,6 +9,7 @@ import { corsOptions } from './cors-configuration.js';
 import { helmetConfiguration } from './helmet-configuration.js';
 import categor from '../src/categories/category.routes.js';
 import Post from '../src/posts/post.routes.js';
+import Comment from '../src/comments/comment.routes.js';
 
 const BASE_PATH = 'yourVoiceUser/v1';
 
@@ -33,6 +34,7 @@ const routes = (app) => {
 
     app.use(`/${BASE_PATH}/categories`, categor);
     app.use(`/${BASE_PATH}/posts`, Post);
+    app.use(`/${BASE_PATH}/comments`, Comment);
     app.use((req, res) => {
         res.status(404).json({
             status: 'error',
